@@ -43,7 +43,7 @@ trait StateInterpreterIntegrationTestSupport extends Matchers { self: Suite =>
 
   def assertDeck(explosiveCardCount: Int, blankCardCount: Int): F[Unit]  =
     for {
-      cards <- State.Cards.all()
+      cards <- State.Deck.all()
     } yield {
       val (explosiveCards, blankCards) = cards.partition(_.isInstanceOf[Card.Explosive])
       explosiveCards.size shouldBe explosiveCardCount

@@ -18,7 +18,7 @@ object GameState extends State[GameInterpreter.Program] {
       GameInterpreter.RandomState.shuffle(deck)
   }
 
-  override implicit val Cards: Cards[GameInterpreter.Program] = new CardsLocal[GameInterpreter.Program] {
+  override implicit val Deck: Deck[GameInterpreter.Program] = new DeckLocal[GameInterpreter.Program] {
     override protected def insert(value: Card): GameInterpreter.Program[Unit] =
       GameInterpreter.applyCommand(CardInsert(value))
 
@@ -26,7 +26,7 @@ object GameState extends State[GameInterpreter.Program] {
       GameInterpreter.applyCommand(CardDelete(value))
 
     override def all(): GameInterpreter.Program[Vector[Card]] =
-      GameInterpreter.Interpreter.read(_.cards)
+      GameInterpreter.Interpreter.read(_.deck)
   }
 
 }

@@ -6,6 +6,6 @@ trait State[F[_]] {
 
   implicit val Shuffle: Shuffle[F]
 
-  implicit val Cards: Cards[F]
+  implicit val Deck: Deck[F]
 
 }

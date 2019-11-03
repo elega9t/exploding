@@ -13,11 +13,11 @@ class InitializeDeckProcessor[F[_]](implicit F: Monad[F], State: State[F]) {
 
   def apply(event: InitializeDeck): F[GameResult] =
     for {
-      _ <- Cards.clear()
+      _ <- Deck.clear()
       blankCards <- (1 to event.blankCount).toVector.traverse(_ => newCard(Card.Blank.apply))
       explosiveCards <- (1 to event.explosiveCount).toVector.traverse(_ => newCard(Card.Explosive.apply))
       shuffledDeck <- Shuffle(blankCards ++ explosiveCards)
-      _ <- shuffledDeck.traverse(Cards.persist)
+      _ <- shuffledDeck.traverse(Deck.persist)
     } yield GameResult.DeckInitialized
 
   private def newCard(fn: String => Card): F[Card] =

@@ -12,7 +12,7 @@ class DrawCardProcessor[F[_]](implicit F: Monad[F], State: State[F]) {
 
   def apply(): F[GameResult] = {
     val op = for {
-      nextCard <- OptionT(Cards.next)
+      nextCard <- OptionT(Deck.next)
     } yield {
       nextCard match {
         case Card.Blank(_) =>

@@ -19,9 +19,9 @@ case object GameInterpreter extends StateInterpreterTemplate with StateProcessTe
 
   override def applyCommand(command: Command): Program[Unit] = command match {
 
-    case CardInsert(value) => write(data => data.copy(cards = data.cards :+ value))
+    case CardInsert(value) => write(data => data.copy(deck = data.deck :+ value))
 
-    case CardDelete(value) => write(data => data.copy(cards = data.cards.filterNot(_ == value)))
+    case CardDelete(value) => write(data => data.copy(deck = data.deck.filterNot(_ == value)))
 
     case RandomNumbers(cmd) => applyRandomCommand(cmd)
 

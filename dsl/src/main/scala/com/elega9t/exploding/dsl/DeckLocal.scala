@@ -5,7 +5,7 @@ import cats.data.OptionT
 import cats.implicits._
 import com.elega9t.exploding.model.Card
 
-abstract class CardsLocal[F[_]](implicit F: Monad[F]) extends Cards[F] {
+abstract class DeckLocal[F[_]](implicit F: Monad[F]) extends Deck[F] {
 
   protected def insert(value: Card): F[Unit]
   protected def delete(value: Card): F[Unit]

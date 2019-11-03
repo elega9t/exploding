@@ -1,0 +1,16 @@
+# IntelliJ project files
+.idea
+*.iml
+shared/logs/
+shared/var/
+
+# MacOSX files
+*.DS_Store
+Thumbs.db
+
+# Scala class files
+*.class
+
+# SBT
+project/project
+target

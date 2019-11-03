@@ -1,7 +1,7 @@
 package com.elega9t.exploding
 
-import com.elega9t.exploding.dsl.Command.{CardDelete, CardInsert, RandomNumbers}
-import com.elega9t.interpreter.template.{RandomSupport, StateInterpreterTemplate, StateProcessTemplate}
+import com.elega9t.interpreter.template._
+import com.elega9t.exploding.dsl.Command._
 
 case object GameInterpreter extends StateInterpreterTemplate with StateProcessTemplate with RandomSupport {
 
@@ -19,9 +19,13 @@ case object GameInterpreter extends StateInterpreterTemplate with StateProcessTe
 
   override def applyCommand(command: Command): Program[Unit] = command match {
 
-    case CardInsert(value) => write(data => data.copy(deck = data.deck :+ value))
+    case DeckCardInsert(value) => write(data => data.copy(deck = data.deck :+ value))
 
-    case CardDelete(value) => write(data => data.copy(deck = data.deck.filterNot(_ == value)))
+    case DeckCardDelete(value) => write(data => data.copy(deck = data.deck.filterNot(_ == value)))
+
+    case UserCardInsert(value) => write(data => data.copy(user = data.user :+ value))
+
+    case UserCardDelete(value) => write(data => data.copy(user = data.user.filterNot(_ == value)))
 
     case RandomNumbers(cmd) => applyRandomCommand(cmd)
 

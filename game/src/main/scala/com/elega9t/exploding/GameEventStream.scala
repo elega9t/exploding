@@ -14,7 +14,7 @@ object GameEventStream {
     print("Command: ")
     scanner.nextLine().toLowerCase.trim match {
       case "init" =>
-        GameEvent.InitializeDeck(1, 16) #:: instance()
+        GameEvent.InitializeDeck(1, 16, 2) #:: instance()
       case "draw" =>
         GameEvent.DrawCard  #:: instance()
       case "exit" | "quit" =>

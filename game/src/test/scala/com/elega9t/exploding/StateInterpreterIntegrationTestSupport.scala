@@ -31,6 +31,16 @@ trait StateInterpreterIntegrationTestSupport extends Matchers { self: Suite =>
     Await.result(state.runA(ProcessData(Data.empty)).unsafeToFuture(), Duration.Inf)
   }
 
+  def debug: F[Unit] = {
+    for {
+      deck <- State.Deck.all()
+      user <- State.User.all()
+    } yield {
+      println(s"Deck: $deck")
+      println(s"User: $user")
+    }
+  }
+
   def processEvent(event: GameEvent, expectedOutput: Option[GameResult] = None): F[GameResult] =
     for {
       result <- process(event)._2
@@ -41,13 +51,21 @@ trait StateInterpreterIntegrationTestSupport extends Matchers { self: Suite =>
       result
     }
 
-  def assertDeck(explosiveCardCount: Int, blankCardCount: Int): F[Unit]  =
+  def assertDeck(explosiveCardCount: Int, blankCardCount: Int, diffuseCardCount: Int): F[Unit]  =
     for {
       cards <- State.Deck.all()
     } yield {
-      val (explosiveCards, blankCards) = cards.partition(_.isInstanceOf[Card.Explosive])
-      explosiveCards.size shouldBe explosiveCardCount
-      blankCards.size shouldBe blankCardCount
+      val byType = cards.groupBy(_.productPrefix)
+      byType.get(Card.Explosive.productPrefix).map(_.size) shouldBe Some(explosiveCardCount).filter(_ > 0)
+      byType.get(Card.Blank.productPrefix).map(_.size) shouldBe Some(blankCardCount).filter(_ > 0)
+      byType.get(Card.Diffuse.productPrefix).map(_.size) shouldBe Some(diffuseCardCount).filter(_ > 0)
+    }
+
+  def assertUser(cardCount: Int): F[Unit]  =
+    for {
+      cards <- State.User.all()
+    } yield {
+      cards.size shouldBe cardCount
     }
 
 }

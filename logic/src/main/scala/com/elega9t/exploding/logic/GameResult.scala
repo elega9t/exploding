@@ -10,6 +10,10 @@ object GameResult {
 
   case object CardDiscarded extends GameResult
 
+  case object Diffused extends GameResult
+
+  case object DiffuseRetained extends GameResult
+
   case object PlayerLost extends GameResult
 
 }

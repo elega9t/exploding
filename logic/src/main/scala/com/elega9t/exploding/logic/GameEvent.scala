@@ -4,7 +4,7 @@ sealed trait GameEvent extends Product with Serializable
 
 object GameEvent {
 
-  case class InitializeDeck(explosiveCount: Int, blankCount: Int) extends GameEvent
+  case class InitializeDeck(explosiveCount: Int, blankCount: Int, diffuseCount: Int) extends GameEvent
 
   case object DrawCard extends GameEvent
 

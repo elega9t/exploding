@@ -6,6 +6,10 @@ import cats.effect.IO
 import cats.data.StateT
 import com.elega9t.interpreter.Random
 
+/**
+ * Support for reproducible randomness based on randomSeed and sequenceNumber
+ * i.e, for a given seed and sequenceNumber, Random operations would always return the same value
+ */
 object RandomSupport {
 
   case class Data(sequenceNumber: Long = 0L, randomSeed: Option[Vector[Byte]] = None, random: Option[scala.util.Random] = None)

@@ -20,13 +20,24 @@ object GameState extends State[GameInterpreter.Program] {
 
   override implicit val Deck: Deck[GameInterpreter.Program] = new DeckLocal[GameInterpreter.Program] {
     override protected def insert(value: Card): GameInterpreter.Program[Unit] =
-      GameInterpreter.applyCommand(CardInsert(value))
+      GameInterpreter.applyCommand(DeckCardInsert(value))
 
     override protected def delete(value: Card): GameInterpreter.Program[Unit] =
-      GameInterpreter.applyCommand(CardDelete(value))
+      GameInterpreter.applyCommand(DeckCardDelete(value))
 
     override def all(): GameInterpreter.Program[Vector[Card]] =
       GameInterpreter.Interpreter.read(_.deck)
+  }
+
+  override implicit val User: User[GameInterpreter.Program] = new UserLocal[GameInterpreter.Program] {
+    override protected def insert(value: Card.Diffuse): GameInterpreter.Program[Unit] =
+      GameInterpreter.applyCommand(UserCardInsert(value))
+
+    override def delete(value: Card.Diffuse): GameInterpreter.Program[Unit] =
+      GameInterpreter.applyCommand(UserCardDelete(value))
+
+    override def all(): GameInterpreter.Program[Vector[Card.Diffuse]] =
+      GameInterpreter.Interpreter.read(_.user)
   }
 
 }

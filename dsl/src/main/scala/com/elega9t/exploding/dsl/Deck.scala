@@ -8,6 +8,8 @@ trait Deck[F[_]] {
 
   def persist(card: Card): F[Unit]
 
+  def shuffle: F[Unit]
+
   def clear(): F[Unit]
 
   def next: F[Option[Card]]

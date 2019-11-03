@@ -8,4 +8,6 @@ trait State[F[_]] {
 
   implicit val Deck: Deck[F]
 
+  implicit val User: User[F]
+
 }

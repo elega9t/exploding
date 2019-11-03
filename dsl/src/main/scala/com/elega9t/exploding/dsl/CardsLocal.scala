@@ -10,8 +10,6 @@ abstract class CardsLocal[F[_]](implicit F: Monad[F]) extends Cards[F] {
   protected def insert(value: Card): F[Unit]
   protected def delete(value: Card): F[Unit]
 
-  protected def all(): F[Vector[Card]]
-
   override def persist(value: Card): F[Unit] =
     insert(value)
 

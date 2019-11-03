@@ -9,7 +9,7 @@ import com.elega9t.exploding.dsl.Command._
 object GameState extends State[GameInterpreter.Program] {
 
   override implicit val Uuid: Uuid[GameInterpreter.Program] = new Uuid[GameInterpreter.Program] {
-    override def next: GameInterpreter.Program[UUID] =
+    override def next(): GameInterpreter.Program[UUID] =
       GameInterpreter.RandomState.randomArray(16).map(RandomUuid.fromBytes)
   }
 
@@ -25,7 +25,7 @@ object GameState extends State[GameInterpreter.Program] {
     override protected def delete(value: Card): GameInterpreter.Program[Unit] =
       GameInterpreter.applyCommand(CardDelete(value))
 
-    override protected def all(): GameInterpreter.Program[Vector[Card]] =
+    override def all(): GameInterpreter.Program[Vector[Card]] =
       GameInterpreter.Interpreter.read(_.cards)
   }
 

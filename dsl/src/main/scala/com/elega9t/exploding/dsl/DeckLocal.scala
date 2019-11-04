@@ -30,7 +30,7 @@ abstract class DeckLocal[F[_]](implicit F: Monad[F], Shuffle: Shuffle[F]) extend
   override def next: F[Option[Card]] = {
     val op = for {
       cards <- OptionT.liftF(all())
-      selectedCard <- OptionT(F.pure(cards.headOption))
+      selectedCard <- OptionT.fromOption[F](cards.headOption)
       _ <- OptionT.liftF(delete(selectedCard))
     } yield selectedCard
 

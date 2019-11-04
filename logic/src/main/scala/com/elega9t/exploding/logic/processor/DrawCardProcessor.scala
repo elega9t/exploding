@@ -27,12 +27,12 @@ class DrawCardProcessor[F[_]](implicit F: Monad[F], State: State[F]) {
         OptionT.some(GameResult.CardDiscarded)
       case (Card.Explosive(_), None) =>
         OptionT.some(GameResult.PlayerLost)
-      case (diffuse @ Card.Diffuse(_), _) =>
-        OptionT.liftF(User.persist(diffuse).map(_ => GameResult.DiffuseRetained))
-      case (explosive @ Card.Explosive(_), Some(diffuseCard @ Card.Diffuse(_))) =>
+      case (diffuseCard @ Card.Diffuse(_), _) =>
+        OptionT.liftF(User.persist(diffuseCard).map(_ => GameResult.DiffuseRetained))
+      case (explosiveCard @ Card.Explosive(_), Some(diffuseCard @ Card.Diffuse(_))) =>
         OptionT.liftF {
           for {
-            _ <- Deck.persist(explosive)
+            _ <- Deck.persist(explosiveCard)
             _ <- Deck.shuffle
             _ <- User.delete(diffuseCard)
           } yield GameResult.Diffused
